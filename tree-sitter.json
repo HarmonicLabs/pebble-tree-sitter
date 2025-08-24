@@ -1,0 +1,39 @@
+{
+  "grammars": [
+    {
+      "name": "pebble",
+      "camelcase": "Pebble",
+      "scope": "source.js",
+      "path": ".",
+      "file-types": [
+        "pebble"
+      ],
+      "highlights": [
+        "queries/highlights.scm",
+        "queries/highlights-jsx.scm",
+        "queries/highlights-params.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
+      ],
+      "injection-regex": "^(pebble)$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Pebble grammar for tree-sitter",
+    "authors": [],
+    "links": {
+      "repository": "https://github.com/HarmonicLabs/pebble-tree-sitter"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": false
+  }
+}

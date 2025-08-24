@@ -1,0 +1,26 @@
+[package]
+name = "tree-sitter-pebble"
+description = "Pebble grammar for tree-sitter"
+version = "0.1.0"
+license = "MIT"
+readme = "README.md"
+keywords = ["incremental", "parsing", "tree-sitter", "pebble"]
+categories = ["parsing", "text-editors"]
+repository = "https://github.com/HarmonicLabs/pebble-tree-sitter"
+edition = "2024"
+autoexamples = false
+
+build = "bindings/rust/build.rs"
+include = ["LICENSE", "bindings/rust/*", "grammar.js", "queries/*", "src/*", "tree-sitter.json"]
+
+[lib]
+path = "bindings/rust/lib.rs"
+
+[dependencies]
+tree-sitter-language = "0.1"
+
+[build-dependencies]
+cc = "1.1"
+
+[dev-dependencies]
+tree-sitter = "0.24"
