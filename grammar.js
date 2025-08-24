@@ -75,9 +75,12 @@ module.exports = grammar({
       'ternary',
       $.sequence_expression,
       $.arrow_function,
+      'pebble_statement',
     ],
     ['assign', $.primary_expression],
     ['member', 'template_call', 'new', 'call', $.expression],
+    ['assert', 'declaration', 'literal'],
+    ['assert', 'member', 'call'],
     ['declaration', 'literal'],
     [$.primary_expression, $.statement_block, 'object'],
     [$.meta_property, $.import],
@@ -103,6 +106,7 @@ module.exports = grammar({
     [$.computed_property_name, $.array],
     [$.binary_expression, $._initializer],
     [$.class_static_block, $._property_name],
+    [$.match_pattern, $.match_constructor_pattern],
   ],
 
   word: $ => $.identifier,
@@ -179,6 +183,7 @@ module.exports = grammar({
       $.class_declaration,
       $.lexical_declaration,
       $.variable_declaration,
+      $.struct_declaration,
     ),
 
     //
@@ -265,6 +270,12 @@ module.exports = grammar({
       $.throw_statement,
       $.empty_statement,
       $.labeled_statement,
+
+      // Pebble-specific statements
+      $.assert_statement,
+      $.trace_statement,
+      $.fail_statement,
+      $.match_statement,
     ),
 
     expression_statement: $ => seq(
@@ -427,6 +438,71 @@ module.exports = grammar({
       ':',
       field('body', $.statement),
     )),
+
+    // Pebble-specific statements
+    assert_statement: $ => prec.right('pebble_statement', seq(
+      token('assert'),
+      field('condition', $.expression),
+      choice(
+        $._semicolon,
+        seq(
+          'else',
+          field('message', $.expression),
+          $._semicolon,
+        ),
+      ),
+    )),
+
+    trace_statement: $ => prec.right('pebble_statement', seq(
+      token('trace'),
+      field('value', $.expression),
+      $._semicolon,
+    )),
+
+    fail_statement: $ => prec.right('pebble_statement', choice(
+      seq(token('fail'), $._semicolon),
+      seq(token('fail'), field('condition', $.expression), $._semicolon),
+    )),
+
+    match_statement: $ => prec.right('pebble_statement', seq(
+      token('match'),
+      '(',
+      field('value', $.expression),
+      ')',
+      '{',
+      repeat($.match_arm),
+      '}',
+    )),
+
+    match_arm: $ => seq(
+      field('pattern', $.match_pattern),
+      ':',
+      field('body', $.statement_block),
+    ),
+
+    match_pattern: $ => choice(
+      $.identifier,
+      $.match_constructor_pattern,
+      '_',
+    ),
+
+    match_constructor_pattern: $ => seq(
+      field('constructor', $.identifier),
+      optional(seq(
+        '{',
+        repeat($.match_field_pattern),
+        '}',
+      )),
+    ),
+
+    match_field_pattern: $ => seq(
+      field('field', $.identifier),
+      optional(seq(
+        ':',
+        field('pattern', $.match_pattern),
+      )),
+      optional(','),
+    ),
 
     //
     // Statement components
@@ -756,6 +832,32 @@ module.exports = grammar({
       field('body', $.statement_block),
       optional($._automatic_semicolon),
     )),
+
+    struct_declaration: $ => seq(
+      token('struct'),
+      field('name', $.identifier),
+      '{',
+      repeat(choice(
+        $.struct_field,
+        $.struct_variant,
+      )),
+      '}',
+    ),
+
+    struct_field: $ => seq(
+      field('name', $.identifier),
+      ':',
+      field('type', $.identifier),
+      optional(','),
+    ),
+
+    struct_variant: $ => seq(
+      field('name', $.identifier),
+      '{',
+      repeat($.struct_field),
+      '}',
+      optional(','),
+    ),
 
     arrow_function: $ => seq(
       optional('async'),
@@ -1218,6 +1320,15 @@ module.exports = grammar({
       'static',
       'export',
       'let',
+    ),
+
+    // Pebble keywords are handled separately to avoid conflicts
+    _pebble_keyword: _ => choice(
+      'assert',
+      'trace',
+      'fail',
+      'match',
+      'struct',
     ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';'),

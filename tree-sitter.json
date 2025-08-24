@@ -3,7 +3,7 @@
     {
       "name": "pebble",
       "camelcase": "Pebble",
-      "scope": "source.js",
+      "scope": "source.pebble",
       "path": ".",
       "file-types": [
         "pebble"
