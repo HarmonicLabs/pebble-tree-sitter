@@ -184,6 +184,7 @@ module.exports = grammar({
       $.lexical_declaration,
       $.variable_declaration,
       $.struct_declaration,
+      $.contract_declaration,
     ),
 
     //
@@ -859,6 +860,74 @@ module.exports = grammar({
       optional(','),
     ),
 
+    contract_declaration: $ => seq(
+      token('contract'),
+      field('name', $.identifier),
+      '{',
+      repeat($.contract_member),
+      '}',
+    ),
+
+    contract_member: $ => choice(
+      $.param_statement,
+      $.spend_statement,
+      $.mint_statement,
+      $.certify_statement,
+      $.withdraw_statement,
+      $.propose_statement,
+      $.vote_statement,
+    ),
+
+    param_statement: $ => seq(
+      token('param'),
+      field('name', $.identifier),
+      ':',
+      field('type', $.identifier),
+      ';',
+    ),
+
+    spend_statement: $ => seq(
+      token('spend'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
+    mint_statement: $ => seq(
+      token('mint'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
+    certify_statement: $ => seq(
+      token('certify'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
+    withdraw_statement: $ => seq(
+      token('withdraw'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
+    propose_statement: $ => seq(
+      token('propose'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
+    vote_statement: $ => seq(
+      token('vote'),
+      field('name', $.identifier),
+      field('parameters', $.formal_parameters),
+      field('body', $.statement_block),
+    ),
+
     arrow_function: $ => seq(
       optional('async'),
       choice(
@@ -877,7 +946,13 @@ module.exports = grammar({
 
     // Override
     _call_signature: $ => field('parameters', $.formal_parameters),
-    _formal_parameter: $ => choice($.pattern, $.assignment_pattern),
+    _formal_parameter: $ => choice($.pattern, $.assignment_pattern, $.typed_parameter),
+
+    typed_parameter: $ => seq(
+      field('name', $.identifier),
+      ':',
+      field('type', $.identifier),
+    ),
 
     optional_chain: _ => '?.',
 
