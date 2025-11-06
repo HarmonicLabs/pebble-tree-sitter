@@ -1,6 +1,6 @@
 {
   "name": "@harmoniclabs/tree-sitter-pebble",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pebble grammar for tree-sitter",
   "repository": "https://github.com/HarmonicLabs/pebble-tree-sitter",
   "license": "MIT",
@@ -29,11 +29,11 @@
   "devDependencies": {
     "eslint": "^9.14.0",
     "eslint-config-treesitter": "^1.0.2",
-    "tree-sitter-cli": "^0.24.4",
+    "tree-sitter-cli": "^0.25.10",
     "prebuildify": "^6.0.1"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.1"
+    "tree-sitter": "^0.25.0"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
