@@ -35,11 +35,6 @@
   "peerDependencies": {
     "tree-sitter": "^0.25.0"
   },
-  "peerDependenciesMeta": {
-    "tree-sitter": {
-      "optional": true
-    }
-  },
   "scripts": {
     "install": "node-gyp-build",
     "lint": "eslint grammar.js",
