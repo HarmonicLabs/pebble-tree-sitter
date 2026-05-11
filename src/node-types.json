@@ -308,6 +308,10 @@
         "named": true
       },
       {
+        "type": "using_statement",
+        "named": true
+      },
+      {
         "type": "while_statement",
         "named": true
       },
@@ -1131,6 +1135,10 @@
         },
         {
           "type": "spend_statement",
+          "named": true
+        },
+        {
+          "type": "state_declaration",
           "named": true
         },
         {
@@ -2974,6 +2982,36 @@
     }
   },
   {
+    "type": "state_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "spend_statement",
+          "named": true
+        },
+        {
+          "type": "struct_field",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "statement_block",
     "named": true,
     "fields": {},
@@ -3480,6 +3518,32 @@
     }
   },
   {
+    "type": "using_statement",
+    "named": true,
+    "fields": {
+      "constructors": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "object_pattern",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "variable_declaration",
     "named": true,
     "fields": {},
@@ -3933,7 +3997,8 @@
   },
   {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "const",
@@ -4017,7 +4082,8 @@
   },
   {
     "type": "html_comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "identifier",
@@ -4124,6 +4190,10 @@
     "named": false
   },
   {
+    "type": "state",
+    "named": false
+  },
+  {
     "type": "statement_identifier",
     "named": true
   },
@@ -4182,6 +4252,10 @@
   {
     "type": "undefined",
     "named": true
+  },
+  {
+    "type": "using",
+    "named": false
   },
   {
     "type": "var",

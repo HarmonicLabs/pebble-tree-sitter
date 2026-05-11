@@ -277,6 +277,7 @@ module.exports = grammar({
       $.trace_statement,
       $.fail_statement,
       $.match_statement,
+      $.using_statement,
     ),
 
     expression_statement: $ => seq(
@@ -504,6 +505,14 @@ module.exports = grammar({
       )),
       optional(','),
     ),
+
+    using_statement: $ => prec.right('pebble_statement', seq(
+      token('using'),
+      field('constructors', $.object_pattern),
+      '=',
+      field('type', $.identifier),
+      $._semicolon,
+    )),
 
     //
     // Statement components
@@ -870,12 +879,22 @@ module.exports = grammar({
 
     contract_member: $ => choice(
       $.param_statement,
+      $.state_declaration,
       $.spend_statement,
       $.mint_statement,
       $.certify_statement,
       $.withdraw_statement,
       $.propose_statement,
       $.vote_statement,
+    ),
+
+    state_declaration: $ => seq(
+      token('state'),
+      field('name', $.identifier),
+      '{',
+      repeat($.struct_field),
+      repeat($.spend_statement),
+      '}',
     ),
 
     param_statement: $ => seq(
@@ -1404,6 +1423,7 @@ module.exports = grammar({
       'fail',
       'match',
       'struct',
+      'using',
     ),
 
     _semicolon: $ => choice($._automatic_semicolon, ';'),

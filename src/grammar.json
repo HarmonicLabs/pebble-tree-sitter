@@ -679,6 +679,10 @@
         {
           "type": "SYMBOL",
           "name": "match_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "using_statement"
         }
       ]
     },
@@ -1861,6 +1865,46 @@
           ]
         }
       ]
+    },
+    "using_statement": {
+      "type": "PREC_RIGHT",
+      "value": "pebble_statement",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "using"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "constructors",
+            "content": {
+              "type": "SYMBOL",
+              "name": "object_pattern"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_semicolon"
+          }
+        ]
+      }
     },
     "switch_body": {
       "type": "SEQ",
@@ -3759,6 +3803,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "state_declaration"
+        },
+        {
+          "type": "SYMBOL",
           "name": "spend_statement"
         },
         {
@@ -3780,6 +3828,48 @@
         {
           "type": "SYMBOL",
           "name": "vote_statement"
+        }
+      ]
+    },
+    "state_declaration": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "state"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "struct_field"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "spend_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -7423,6 +7513,10 @@
         {
           "type": "STRING",
           "value": "struct"
+        },
+        {
+          "type": "STRING",
+          "value": "using"
         }
       ]
     },
@@ -7793,5 +7887,6 @@
     "expression",
     "primary_expression",
     "pattern"
-  ]
+  ],
+  "reserved": {}
 }

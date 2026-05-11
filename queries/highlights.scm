@@ -202,3 +202,21 @@
   "with"
   "yield"
 ] @keyword
+
+; Pebble-specific keywords
+[
+  "assert"
+  "trace"
+  "fail"
+  "match"
+  "struct"
+  "contract"
+  "param"
+  "spend"
+  "mint"
+  "certify"
+  "withdraw"
+  "propose"
+  "vote"
+  "using"
+] @keyword

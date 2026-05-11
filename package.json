@@ -1,6 +1,6 @@
 {
   "name": "@harmoniclabs/tree-sitter-pebble",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pebble grammar for tree-sitter",
   "repository": "https://github.com/HarmonicLabs/pebble-tree-sitter",
   "license": "MIT",
@@ -36,6 +36,8 @@
     "tree-sitter": "^0.25.0"
   },
   "scripts": {
+    "build": "tree-sitter generate && tree-sitter build --wasm && prebuildify --napi --strip",
+    "prepublishOnly": "npm run build",
     "install": "node-gyp-build",
     "lint": "eslint grammar.js",
     "prestart": "tree-sitter build --wasm",
