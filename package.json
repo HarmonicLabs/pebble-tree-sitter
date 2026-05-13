@@ -1,6 +1,6 @@
 {
   "name": "@harmoniclabs/tree-sitter-pebble",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pebble grammar for tree-sitter",
   "repository": "https://github.com/HarmonicLabs/pebble-tree-sitter",
   "license": "MIT",
